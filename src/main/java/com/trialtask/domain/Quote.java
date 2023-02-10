@@ -1,9 +1,11 @@
 package com.trialtask.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +30,8 @@ public class Quote {
     @NonNull
     @Column(name = "text")
     private String text;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "votes")
+    private List<Vote> votes;
 }

@@ -6,7 +6,6 @@ import com.trialtask.domain.Vote;
 import com.trialtask.dto.QuoteDto;
 import com.trialtask.repository.QuoteRepository;
 import com.trialtask.repository.UserRepository;
-import com.trialtask.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,13 +21,11 @@ import java.util.List;
 public class QuoteService {
     QuoteRepository quoteRepository;
     UserRepository userRepository;
-    VoteRepository voteRepository;
 
     @Autowired
-    public QuoteService(QuoteRepository quoteRepository, UserRepository userRepository, VoteRepository voteRepository) {
+    public QuoteService(QuoteRepository quoteRepository, UserRepository userRepository) {
         this.quoteRepository = quoteRepository;
         this.userRepository = userRepository;
-        this.voteRepository = voteRepository;
     }
 
     public void createQuote(String text, String username) throws Exception {
@@ -66,6 +63,10 @@ public class QuoteService {
     public List<Vote> getVotes(Long quoteId) throws Exception {
         Quote quote = quoteRepository.findById(quoteId)
                 .orElseThrow(() -> new Exception(String.format("Quote %s does not exist", quoteId)));
-        return voteRepository.findByQuoteOrderByDateTime(quote);
+        return quote.getVotes();
+    }
+
+    public Quote getRandom() {
+        return quoteRepository.getRandom();
     }
 }

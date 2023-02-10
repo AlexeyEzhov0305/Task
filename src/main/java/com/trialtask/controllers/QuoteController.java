@@ -54,4 +54,9 @@ public class QuoteController {
     public CollectionModel<Vote> getVotesForQuote(@PathVariable Long quoteId) throws Exception {
         return CollectionModel.of(quoteService.getVotes(quoteId));
     }
+
+    @GetMapping("/random")
+    public EntityModel<Quote> getRandomQuote() {
+        return EntityModel.of(quoteService.getRandom());
+    }
 }
